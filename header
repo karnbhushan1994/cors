@@ -1,0 +1,39 @@
+<?php 
+
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: GET");
+header("Content-Type: text/plain; charset=utf-8");
+
+include 'conn.php';
+$category =$_GET["category_data"];
+
+echo $category ;
+die("okk");
+
+ if($category != ""){
+    $check = mysqli_query($conn, "SELECT * FROM category WHERE category LIKE  '%".$category."%'"); 
+
+    if (mysqli_num_rows($check)>0)
+		{
+		 //$table_data = array();
+	      $row = mysqli_fetch_row($check);
+	        $table_data = json_encode(array('1'=>$row['2'],'500'=>$row['3'],'1000'=>$row['4'],'5000'=>$row['5'],'10000'=>$row['6']));
+	     
+                echo $table_data;
+ 
+		}
+		
+		
+		if(mysqli_num_rows($check) == 0){
+		    
+		   echo $category;
+		   
+		  $table_data =   array("1"=>"","500"=>"","1000"=>"","5000"=>"","10000"=>"");
+	      echo json_encode($table_data);
+	      
+		}
+		
+} 
+
+?>
